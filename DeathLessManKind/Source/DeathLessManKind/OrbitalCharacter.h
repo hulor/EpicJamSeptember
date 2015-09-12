@@ -15,6 +15,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SpringArm)
 		USpringArmComponent* _arm;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Zoom)
+		float	ZoomSpeed;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Zoom)
+		float	MinZoom;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Zoom)
+		float	MaxZoom;
+
 public:
 	// Sets default values for this character's properties
 	AOrbitalCharacter(const class FObjectInitializer& PCIP);
@@ -28,7 +35,10 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-	void RotateAroundZ(float axis);
-	void RotateAroundX(float axis);
+	void	RotateAroundZ(float axis);
+	void	RotateAroundX(float axis);
+	void	ZoomIn();
+	void	ZoomOut();
+	void	Zoom(float axis);
 	
 };
