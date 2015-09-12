@@ -23,6 +23,8 @@ public:
 		float	MinZoom;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Zoom)
 		float	MaxZoom;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Move)
+		bool	InverseUpAxis;
 
 public:
 	// Sets default values for this character's properties
