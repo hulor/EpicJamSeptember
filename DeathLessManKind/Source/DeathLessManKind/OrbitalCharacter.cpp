@@ -14,11 +14,16 @@ AOrbitalCharacter::AOrbitalCharacter(const class FObjectInitializer& PCIP)
 	ZoomSpeed = 50.0f;
 	MinZoom = 200.0f;
 	MaxZoom = 500.0f;
+	_moveActivated = false;
 }
 
 // Called when the game starts or when spawned
 void	AOrbitalCharacter::BeginPlay()
 {
+	APlayerController* pc = this->GetWorld()->GetFirstPlayerController();
+
+	pc->bShowMouseCursor = true;
+	pc->bEnableClickEvents = true;
 	Super::BeginPlay();
 	
 }
@@ -37,10 +42,38 @@ void	AOrbitalCharacter::SetupPlayerInputComponent(class UInputComponent* InputCo
 
 	InputComponent->BindAction("ZoomIn", EInputEvent::IE_Pressed, this, &AOrbitalCharacter::ZoomIn);
 	InputComponent->BindAction("ZoomOut", EInputEvent::IE_Pressed, this, &AOrbitalCharacter::ZoomOut);
+	InputComponent->BindAction("MoveActivation", EInputEvent::IE_Pressed, this, &AOrbitalCharacter::MoveActivate);
+	InputComponent->BindAction("MoveActivation", EInputEvent::IE_Released, this, &AOrbitalCharacter::MoveUnactivate);
 
+	InputComponent->BindAxis("MouseMoveX", this, &AOrbitalCharacter::MouseRotateZ);
+	InputComponent->BindAxis("MouseMoveY", this, &AOrbitalCharacter::MouseRotateX);
 	InputComponent->BindAxis("ZRotation", this, &AOrbitalCharacter::RotateAroundZ);
 	InputComponent->BindAxis("XRotation", this, &AOrbitalCharacter::RotateAroundX);
 	InputComponent->BindAxis("Zoom", this, &AOrbitalCharacter::Zoom);
+}
+
+void	AOrbitalCharacter::MoveActivate()
+{
+	_moveActivated = true;
+}
+
+void	AOrbitalCharacter::MoveUnactivate()
+{
+	_moveActivated = false;
+}
+
+void	AOrbitalCharacter::MouseRotateZ(float axis)
+{
+	if (_moveActivated == false)
+		return;
+	RotateAroundZ(axis);
+}
+
+void	AOrbitalCharacter::MouseRotateX(float axis)
+{
+	if (_moveActivated == false)
+		return;
+	RotateAroundX(axis);
 }
 
 void	AOrbitalCharacter::RotateAroundZ(float axis)
@@ -65,6 +98,8 @@ void	AOrbitalCharacter::ZoomOut()
 
 void	AOrbitalCharacter::Zoom(float axis)
 {
+	if (_arm == NULL)
+		return;
 	_arm->TargetArmLength += axis * ZoomSpeed;
 	_arm->TargetArmLength = FMath::Clamp(_arm->TargetArmLength, MinZoom, MaxZoom);
 }
