@@ -14,6 +14,7 @@ AOrbitalCharacter::AOrbitalCharacter(const class FObjectInitializer& PCIP)
 	ZoomSpeed = 50.0f;
 	MinZoom = 200.0f;
 	MaxZoom = 500.0f;
+	InverseUpAxis = false;
 	_moveActivated = false;
 }
 
@@ -83,6 +84,8 @@ void	AOrbitalCharacter::RotateAroundZ(float axis)
 
 void	AOrbitalCharacter::RotateAroundX(float axis)
 {
+	if (InverseUpAxis == true)
+		axis = -axis;
 	this->AddControllerPitchInput(axis);
 }
 
