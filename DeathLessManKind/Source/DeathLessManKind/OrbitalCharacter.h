@@ -10,6 +10,8 @@ class DEATHLESSMANKIND_API AOrbitalCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+private:
+	bool _moveActivated;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SpringArm)
@@ -34,6 +36,11 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
+
+	void	MoveActivate();
+	void	MoveUnactivate();
+	void	MouseRotateZ(float axis);
+	void	MouseRotateX(float axis);
 
 	void	RotateAroundZ(float axis);
 	void	RotateAroundX(float axis);
