@@ -180,7 +180,9 @@ void	AOrbitalCharacter::Shot()
 		return;
 	}
 	UE_LOG(OrbitalChar, Warning, TEXT("hit!"));
-	ABasePower* power = this->GetWorld()->SpawnActor<ABasePower>(this->Powers[_currentWeapon]); // cast to init
+	ABasePower* power = this->GetWorld()->SpawnActor<ABasePower>(this->Powers[_currentWeapon],
+					hits[0].ImpactPoint,
+					FRotationMatrix::MakeFromZ(hits[0].ImpactNormal).Rotator()); // cast to init
 	_timers[_currentWeapon] = PowersCoolDown[_currentWeapon];
 	//init with direction
 }
