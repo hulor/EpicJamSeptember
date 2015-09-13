@@ -3,6 +3,7 @@
 #include "DeathLessManKind.h"
 #include "BasePower.h"
 #include "PlanetCitizen.h"
+#include "CitizenState.h"
 
 DEFINE_LOG_CATEGORY(BasePower);
 
@@ -36,8 +37,15 @@ void	ABasePower::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 	TArray<AActor*> actors;
+	ACitizenState* state = Cast<ACitizenState>(GetWorld()->GetGameState());
 
 	Collider->GetOverlappingActors(actors, APlanetCitizen::StaticClass());
+
+	if (state != NULL)
+	{
+		state->PlanetPop -= actors.Num();
+		state->SpacePop += actors.Num();
+	}
 	for (int i = 0, size = actors.Num(); i < size; ++i)
 	{
 		Cast<APlanetCitizen>(actors[i])->Projectile->Velocity = (actors[i]->GetActorLocation() - this->GetActorLocation()).SafeNormal() * ImpulsionForce;
@@ -59,5 +67,12 @@ void	ABasePower::OnBeginOverlap(AActor* other)
 		return;
 	}
 	citizen->Projectile->Velocity = (citizen->GetActorLocation() - this->GetActorLocation()).SafeNormal() * ImpulsionForce;
+	ACitizenState* state = Cast<ACitizenState>(GetWorld()->GetGameState());
+
+	if (state != NULL)
+	{
+		state->PlanetPop -= 1;
+		state->SpacePop += 1;
+	}
 }
 
