@@ -176,10 +176,8 @@ void	AOrbitalCharacter::Shot()
 	if (this->GetWorld()->LineTraceMultiByObjectType(hits, this->Camera->GetComponentLocation(),
 				this->Camera->GetComponentLocation() + dirCursor * ShotDistanceMax, colObjParam) == false)
 	{
-		UE_LOG(OrbitalChar, Warning, TEXT("No hit!"));
 		return;
 	}
-	UE_LOG(OrbitalChar, Warning, TEXT("hit!"));
 	ABasePower* power = this->GetWorld()->SpawnActor<ABasePower>(this->Powers[_currentWeapon],
 					hits[0].ImpactPoint,
 					FRotationMatrix::MakeFromZ(hits[0].ImpactNormal).Rotator()); // cast to init
@@ -190,5 +188,10 @@ void	AOrbitalCharacter::Shot()
 float	AOrbitalCharacter::RemainsCooldown(int32 weaponId)
 {
 	return (_timers[weaponId]);
+}
+
+float	AOrbitalCharacter::RemainsCooldownNormalized(int32 weaponId)
+{
+	return (FMath::Clamp((_timers[weaponId] / PowersCoolDown[weaponId]), 0.0f, 1.0f));
 }
 
