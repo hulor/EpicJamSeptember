@@ -5,17 +5,24 @@
 #include "GameFramework/Character.h"
 #include "OrbitalCharacter.generated.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(OrbitalChar, Log, All);
+
+
 UCLASS()
 class DEATHLESSMANKIND_API AOrbitalCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 private:
-	bool _moveActivated;
+	bool				_moveActivated;
+	int32				_currentWeapon;
+	TMap<int32, float>	_timers;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SpringArm)
-		USpringArmComponent* _arm;
+		USpringArmComponent* Arm;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera)
+		UCameraComponent* Camera;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Zoom)
 		float	ZoomSpeed;
@@ -25,6 +32,12 @@ public:
 		float	MaxZoom;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Move)
 		bool	InverseUpAxis;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Power)
+		TArray<TSubclassOf<class ABasePower>>	Powers;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Power)
+		TArray<float>	PowersCoolDown;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Shot)
+		float	ShotDistanceMax;
 
 public:
 	// Sets default values for this character's properties
@@ -49,5 +62,17 @@ public:
 	void	ZoomIn();
 	void	ZoomOut();
 	void	Zoom(float axis);
+
+	void	SelectWeapon1();
+	void	SelectWeapon2();
+	void	SelectWeapon3();
+	void	SelectWeapon4();
+
+	UFUNCTION(BlueprintCallable, Category = Power)
+		void	SelectWeapon(int32 weaponId);
+
+	void	Shot();
 	
+	UFUNCTION(BlueprintCallable, Category = Power)
+		float	RemainsCooldown(int32 weaponId);
 };
