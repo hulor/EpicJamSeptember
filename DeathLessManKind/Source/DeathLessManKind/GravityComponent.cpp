@@ -57,7 +57,7 @@ void UGravityComponent::TickComponent( float DeltaTime, ELevelTick TickType, FAc
 	//if (this->GetOwner()->SetActorLocation(this->GetOwner()->GetActorLocation() + force * DeltaTime, true, &hit) == false)
 	{
 		//UE_LOG(GravityComp, Warning, TEXT("Sweep hit before set location!"));
-		this->GetOwner()->SetActorRotation(FRotationMatrix::MakeFromY(hit.ImpactNormal).ToQuat());
+		this->GetOwner()->SetActorRotation(FRotationMatrix::MakeFromZ(hit.ImpactNormal).ToQuat());
 		this->GetOwner()->SetActorLocation(hit.ImpactPoint);
 	}
 	else
