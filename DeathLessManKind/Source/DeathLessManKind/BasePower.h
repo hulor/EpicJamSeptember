@@ -5,6 +5,8 @@
 #include "GameFramework/Actor.h"
 #include "BasePower.generated.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(BasePower, Log, All);
+
 UCLASS()
 class DEATHLESSMANKIND_API ABasePower : public AActor
 {
@@ -22,6 +24,12 @@ public:
 		FVector	EndColliderSize;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Collision)
 		float	GrownDuration;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Impact)
+		float	ImpulsionForce;
+
+protected:
+	UFUNCTION()
+		virtual void	OnBeginOverlap(AActor* other);
 
 public:	
 	// Sets default values for this actor's properties

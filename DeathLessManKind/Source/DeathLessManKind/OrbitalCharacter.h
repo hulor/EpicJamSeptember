@@ -75,4 +75,6 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = Power)
 		float	RemainsCooldown(int32 weaponId);
+	UFUNCTION(BlueprintCallable, Category = Power)
+		float	RemainsCooldownNormalized(int32 weaponId);
 };
