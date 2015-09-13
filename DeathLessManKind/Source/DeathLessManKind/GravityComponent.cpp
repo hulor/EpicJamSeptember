@@ -53,16 +53,17 @@ void UGravityComponent::TickComponent( float DeltaTime, ELevelTick TickType, FAc
 	FCollisionQueryParams colParam;
 	FCollisionObjectQueryParams colObjParam;
 
-	this->GetWorld()->LineTraceSingle(hit, this->GetOwner()->GetActorLocation(), this->GetOwner()->GetActorLocation() + force * DeltaTime, colParam, colObjParam);
-	if (this->GetOwner()->SetActorLocation(this->GetOwner()->GetActorLocation() + force * DeltaTime, true, &hit) == false)
+	if (this->GetWorld()->LineTraceSingle(hit, this->GetOwner()->GetActorLocation(), this->GetOwner()->GetActorLocation() + force * DeltaTime, colParam, colObjParam) == true)
+	//if (this->GetOwner()->SetActorLocation(this->GetOwner()->GetActorLocation() + force * DeltaTime, true, &hit) == false)
 	{
-		UE_LOG(GravityComp, Warning, TEXT("Sweep hit before set location!"));
+		//UE_LOG(GravityComp, Warning, TEXT("Sweep hit before set location!"));
 		this->GetOwner()->SetActorRotation(FRotationMatrix::MakeFromY(hit.ImpactNormal).ToQuat());
 		this->GetOwner()->SetActorLocation(hit.ImpactPoint);
 	}
 	else
 	{
-		UE_LOG(GravityComp, Warning, TEXT("No hit!"));
+		this->GetOwner()->SetActorLocation(this->GetOwner()->GetActorLocation() + force * DeltaTime);
+		//UE_LOG(GravityComp, Warning, TEXT("No hit!"));
 	}
 }
 
