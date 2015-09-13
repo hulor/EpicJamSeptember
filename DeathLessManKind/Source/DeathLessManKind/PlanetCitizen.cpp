@@ -14,6 +14,7 @@ APlanetCitizen::APlanetCitizen(const class FObjectInitializer& PCIP)
 	Mesh = PCIP.CreateDefaultSubobject<USkeletalMeshComponent>(this, TEXT("SKMesh"));
 	RandMove = PCIP.CreateDefaultSubobject<URandomMove>(this, TEXT("RandomMove"));
 	Gravity = PCIP.CreateDefaultSubobject<UGravityComponent>(this, TEXT("Gravity"));
+	Projectile = PCIP.CreateDefaultSubobject<UProjectileMovementComponent>(this, TEXT("ProjectileComponent"));
 
 	Mesh->AttachTo(this->RootComponent);
 }

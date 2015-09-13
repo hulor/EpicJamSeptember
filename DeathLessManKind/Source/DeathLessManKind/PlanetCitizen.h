@@ -21,6 +21,8 @@ public:
 		URandomMove* RandMove;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Move)
 		UGravityComponent* Gravity;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Move)
+		UProjectileMovementComponent* Projectile;
 
 public:	
 	// Sets default values for this actor's properties
