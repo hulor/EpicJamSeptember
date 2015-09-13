@@ -11,7 +11,8 @@ class DEATHLESSMANKIND_API AOrbitalCharacter : public ACharacter
 	GENERATED_BODY()
 
 private:
-	bool _moveActivated;
+	bool	_moveActivated;
+	int32	_currentWeapon;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SpringArm)
@@ -25,6 +26,8 @@ public:
 		float	MaxZoom;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Move)
 		bool	InverseUpAxis;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Power)
+		TArray<TSubclassOf<AActor>>	Powers;
 
 public:
 	// Sets default values for this character's properties
@@ -49,5 +52,15 @@ public:
 	void	ZoomIn();
 	void	ZoomOut();
 	void	Zoom(float axis);
+
+	void	SelectWeapon1();
+	void	SelectWeapon2();
+	void	SelectWeapon3();
+	void	SelectWeapon4();
+
+	UFUNCTION(BlueprintCallable, Category = Power)
+		void	SelectWeapon(int32 weaponId);
+
+	void	Shot();
 	
 };

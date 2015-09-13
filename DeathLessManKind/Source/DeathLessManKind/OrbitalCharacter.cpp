@@ -16,6 +16,7 @@ AOrbitalCharacter::AOrbitalCharacter(const class FObjectInitializer& PCIP)
 	MaxZoom = 500.0f;
 	InverseUpAxis = false;
 	_moveActivated = false;
+	_currentWeapon = 0;
 }
 
 // Called when the game starts or when spawned
@@ -45,6 +46,12 @@ void	AOrbitalCharacter::SetupPlayerInputComponent(class UInputComponent* InputCo
 	InputComponent->BindAction("ZoomOut", EInputEvent::IE_Pressed, this, &AOrbitalCharacter::ZoomOut);
 	InputComponent->BindAction("MoveActivation", EInputEvent::IE_Pressed, this, &AOrbitalCharacter::MoveActivate);
 	InputComponent->BindAction("MoveActivation", EInputEvent::IE_Released, this, &AOrbitalCharacter::MoveUnactivate);
+
+	InputComponent->BindAction("Shot", EInputEvent::IE_Released, this, &AOrbitalCharacter::Shot);
+	InputComponent->BindAction("SelectWeapon1", EInputEvent::IE_Released, this, &AOrbitalCharacter::SelectWeapon1);
+	InputComponent->BindAction("SelectWeapon2", EInputEvent::IE_Released, this, &AOrbitalCharacter::SelectWeapon2);
+	InputComponent->BindAction("SelectWeapon3", EInputEvent::IE_Released, this, &AOrbitalCharacter::SelectWeapon3);
+	InputComponent->BindAction("SelectWeapon4", EInputEvent::IE_Released, this, &AOrbitalCharacter::SelectWeapon4);
 
 	InputComponent->BindAxis("MouseMoveX", this, &AOrbitalCharacter::MouseRotateZ);
 	InputComponent->BindAxis("MouseMoveY", this, &AOrbitalCharacter::MouseRotateX);
@@ -105,5 +112,46 @@ void	AOrbitalCharacter::Zoom(float axis)
 		return;
 	_arm->TargetArmLength += axis * ZoomSpeed;
 	_arm->TargetArmLength = FMath::Clamp(_arm->TargetArmLength, MinZoom, MaxZoom);
+}
+
+void	AOrbitalCharacter::SelectWeapon1()
+{
+	SelectWeapon(0);
+}
+
+void	AOrbitalCharacter::SelectWeapon2()
+{
+	SelectWeapon(1);
+
+}
+
+void	AOrbitalCharacter::SelectWeapon3()
+{
+	SelectWeapon(2);
+
+}
+
+void	AOrbitalCharacter::SelectWeapon4()
+{
+	SelectWeapon(3);
+}
+
+void	AOrbitalCharacter::SelectWeapon(int32 weaponId)
+{
+	_currentWeapon = weaponId;
+}
+
+void	AOrbitalCharacter::Shot()
+{
+	APlayerController* pc = Cast<APlayerController>(this->GetController());
+	if (pc == NULL)
+		return;
+
+	FVector worldCursor;
+	FVector dirCursor;
+
+	pc->DeprojectMousePositionToWorld(worldCursor, dirCursor);
+	this->GetWorld()->SpawnActor(this->Powers[_currentWeapon]); // cast to init
+	//init with direction
 }
 
