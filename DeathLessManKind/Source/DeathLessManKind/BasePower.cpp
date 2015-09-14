@@ -76,3 +76,9 @@ void	ABasePower::OnBeginOverlap(AActor* other)
 	}
 }
 
+void	ABasePower::Init(FVector dest, FVector normale)
+{
+	this->SetActorLocation(dest);
+	this->SetActorRotation(FRotationMatrix::MakeFromZ(normale).ToQuat());
+}
+

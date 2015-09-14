@@ -178,9 +178,10 @@ void	AOrbitalCharacter::Shot()
 	{
 		return;
 	}
-	ABasePower* power = this->GetWorld()->SpawnActor<ABasePower>(this->Powers[_currentWeapon],
-					hits[0].ImpactPoint,
-					FRotationMatrix::MakeFromZ(hits[0].ImpactNormal).Rotator()); // cast to init
+	ABasePower* power = this->GetWorld()->SpawnActor<ABasePower>(this->Powers[_currentWeapon], this->Camera->GetComponentLocation(),
+																 this->Camera->GetComponentRotation()); // cast to init
+
+	power->Init(hits[0].ImpactPoint, hits[0].ImpactNormal);
 	_timers[_currentWeapon] = PowersCoolDown[_currentWeapon];
 	//init with direction
 }
