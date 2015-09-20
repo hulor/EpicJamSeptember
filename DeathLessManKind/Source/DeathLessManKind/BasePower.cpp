@@ -30,12 +30,6 @@ void	ABasePower::BeginPlay()
 
 	beginDelegate.BindUFunction(this, FName("OnBeginOverlap"));
 	Collider->OnComponentBeginOverlap.Add(beginDelegate);
-}
-
-// Called every frame
-void	ABasePower::Tick( float DeltaTime )
-{
-	Super::Tick( DeltaTime );
 	TArray<AActor*> actors;
 	ACitizenState* state = Cast<ACitizenState>(GetWorld()->GetGameState());
 
@@ -50,6 +44,12 @@ void	ABasePower::Tick( float DeltaTime )
 	{
 		Cast<APlanetCitizen>(actors[i])->Projectile->Velocity = (actors[i]->GetActorLocation() - this->GetActorLocation()).SafeNormal() * ImpulsionForce;
 	}
+}
+
+// Called every frame
+void	ABasePower::Tick( float DeltaTime )
+{
+	Super::Tick( DeltaTime );
 	_time += DeltaTime;
 	if (_time > GrownDuration)
 		return ;
